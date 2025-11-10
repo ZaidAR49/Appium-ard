@@ -33,5 +33,8 @@ Thumbs.db
 *.ipa
 appium.log
 
+# Resources (ignore large files like APK/IPA and local data)
+resources/
+
 # Screenshots (optional - uncomment if you don't want to track screenshots)
 # screenshots/
