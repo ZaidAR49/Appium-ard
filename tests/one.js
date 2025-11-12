@@ -1,14 +1,16 @@
-import { remote } from 'webdriverio';
-import { wdOpts } from '../config/capabilities.js';
 
+import { createDriver } from '../config/capabilities.js';
+import { setLocationByName } from '../utils/geo-Location.js';
+import {afterSuite} from '../utils/suite-hooks.js';
 async function runTest() {
-	const driver = await remote(wdOpts);
+	const driver = await createDriver();
 	try {
-		await driver.pause(5000);
+setLocationByName(driver, 'Irbid,Jordan');
+		await driver.pause(3000);
 		console.log('App launched successfully');
-		
+
 	} finally {
-		// await driver.deleteSession();
+	afterSuite();
 	}
 }
 
