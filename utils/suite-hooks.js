@@ -1,10 +1,8 @@
-import { createDriver, app } from "../config/capabilities.js";
+import { app } from "../config/capabilities.js";
 
-const driver = await createDriver();
-
-export async function afterSuite() {
+export async function afterSuite(driver) {
   console.log("Test completed,Bye!");
   console.log("Ending session, closing app ...");
-  await driver.terminateApp(app);
-  await driver.deleteSession();
+  //await driver.terminateApp(app);
+  //await driver.deleteSession();
 }

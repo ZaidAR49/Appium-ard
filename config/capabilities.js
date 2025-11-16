@@ -1,15 +1,17 @@
 import 'dotenv/config';
 import { remote } from 'webdriverio';
-export const app ='./resources/app-file/aw-stg-6.0.10(761).apk';
+export const app ='./resources/app-file/aw-prod-6.0.11(765).apk';
 export const capabilities = {
 	platformName: 'Android',
 	'appium:automationName': 'UiAutomator2',
 	'appium:deviceName': process.env.DEVICENAME,
 	'appium:app': app,
-	'appium:autoGrantPermissions': true,
+	//'appium:autoGrantPermissions': true,
 	'appium:settings[ignoreUnimportantViews]':true,
 	'appium:noReset':false,
-	"appium:fullReset": true
+	"appium:fullReset": true,
+	'appium:newCommandTimeout': 500
+
 
 };
 
