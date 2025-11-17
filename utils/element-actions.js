@@ -4,7 +4,7 @@
  * @param {number} timeout - Maximum wait time in ms (default 5000)
  */
 
-export async function waitAndClick(driver, selector, timeout = 5000) {
+export async function waitAndClick(driver, selector, timeout = 5000,optinal=false) {
   try {
     const element = await driver.$(selector);
 
@@ -18,7 +18,11 @@ export async function waitAndClick(driver, selector, timeout = 5000) {
     console.log(
       `Element "${selector}" not found or not clickable within ${timeout}ms. Error: ${error.message}`
     );
+    if(!optinal){
+      console.log("optinal-->",optinal)
+      console.log("This step is optional, continuing...");
     throw error;
+  }
   }
 }
 
