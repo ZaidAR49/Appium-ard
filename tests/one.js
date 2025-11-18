@@ -13,14 +13,15 @@ async function runTest() {
    console.log("loginEmail:", loginEmail);
   try {
 
-	const auth = new Authentication();
+	const auth = new Authentication({optional:true});
 	const notif = new NotificationsPremation({optional:true});
-    setLocationByName(driver, "Irbid,Jordan");
+    await setLocationByName(driver, "Irbid,Jordan");
     await driver.pause(3000);
    
     //await auth.continueAsGuestClick(driver);
-	await auth.loginWithGoogle(driver,loginEmail);
- await notif.allowNotifications(driver);
+	//await auth.loginWithGoogle(driver,loginEmail);
+  await auth.signUpWithGoogle(driver,signupEmail,'DENY');
+ //await notif.allowNotifications(driver);
      
 	   console.log("tests passed successfully");
 

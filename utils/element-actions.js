@@ -4,7 +4,12 @@
  * @param {number} timeout - Maximum wait time in ms (default 5000)
  */
 
-export async function waitAndClick(driver, selector, timeout = 5000,optinal=false) {
+export async function waitAndClick(
+  driver,
+  selector,
+  timeout = 5000,
+  optinal = false
+) {
   try {
     const element = await driver.$(selector);
 
@@ -18,16 +23,17 @@ export async function waitAndClick(driver, selector, timeout = 5000,optinal=fals
     console.log(
       `Element "${selector}" not found or not clickable within ${timeout}ms. Error: ${error.message}`
     );
-    if(!optinal){
-      console.log("optinal-->",optinal)
+    if (!optinal) {
+      console.log("optinal-->", optinal);
       console.log("This step is optional, continuing...");
-    throw error;
-  }
+      throw error;
+    }
   }
 }
 
 export async function waitAndType(driver, selector, text, timeout = 5000) {
   try {
+    
     const element = await driver.$(selector);
 
     await element.waitForExist({ timeout });
@@ -36,8 +42,12 @@ export async function waitAndType(driver, selector, text, timeout = 5000) {
 
     await element.clearValue();
 
-    await element.setValue(text);
+    await element.addValue(text);
     console.log(`Typed "${text}" into element: ${selector}`);
+
+    await driver.hideKeyboard(); //This is the best approach but it will not work in all devices
+
+    
   } catch (error) {
     console.log(
       `Element "${selector}" not found or not typeable within ${timeout}ms. Error: ${error.message}`
