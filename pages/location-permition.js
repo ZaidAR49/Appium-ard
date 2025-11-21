@@ -1,4 +1,5 @@
-import { waitAndClick,waitAndType } from "../utils/element-actions.js";
+import { waitAndClick } from "../utils/element-actions.js";
+ 
 export class LocationPermission{
     /* When we coming to the location permission we have two dialog first one the The runtime dialog which include three options
      and we have also the symbol dialog which only have a llow and deny */
@@ -48,3 +49,6 @@ switch(PermissionType){
     }
 
 }
+
+
+

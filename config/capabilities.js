@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import { remote } from 'webdriverio';
 dotenv.config({ path: '../.env' });
-export const app ='./resources/app-file/aw-prod-6.0.11(765).apk';
+export const app ='./resources/app-file/aw-prod-6.0.12(768).apk';
 export const capabilities = {
 	platformName: 'Android',
 	'appium:automationName': 'UiAutomator2',

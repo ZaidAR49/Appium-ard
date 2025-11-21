@@ -16,8 +16,8 @@ export class Authentication {
   signUpBtn = "accessibility id:Sign Up";
   // Fields
   emailField = "class name:android.widget.EditText";
-  fullNameField = "class name:android.widget.EditText";
-  searchCountryField = "class name:android.widget.EditText";
+  fullNameField = "new UiSelector().className('android.widget.EditText')"; //
+  searchCountryField = "class name:android.widget.EditText"; //
   locationField = `-android uiautomator:new UiSelector().className(\"android.view.View\").instance(8)`;
   // classes
   LocationPermission = null;
@@ -85,7 +85,6 @@ export class Authentication {
           `-android uiautomator:new UiSelector().descriptionContains("${this.contry}")`,
           5000
         );
-
         //continue
         await waitAndClick(driver, this.continueBtn, 5000);
         // skip for later --> welcome screen

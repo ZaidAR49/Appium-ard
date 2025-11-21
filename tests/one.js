@@ -16,7 +16,7 @@ async function runTest() {
 	const auth = new Authentication({optional:true});
 	const notif = new NotificationsPremation({optional:true});
     await setLocationByName(driver, "Irbid,Jordan");
-    await driver.pause(3000);
+    await driver.pause(10000);
    
     //await auth.continueAsGuestClick(driver);
 	//await auth.loginWithGoogle(driver,loginEmail);

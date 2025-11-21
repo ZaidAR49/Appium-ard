@@ -1,8 +1,26 @@
-/**
- * Waits for an element to appear and clicks it if it exists.
- * @param {WebdriverIO.Element} element - The element to click
- * @param {number} timeout - Maximum wait time in ms (default 5000)
- */
+export async function clickOnTheCorner(driver) {
+  try {
+    const content = await driver.$(
+      'android=new UiSelector().resourceId("android:id/content")'
+    );
+
+    await content.waitForExist({ timeout: 5000 });
+
+    const rect = await content.getRect();
+    const X = rect.x + rect.width * 0.9;
+    const Y = rect.y + rect.height * 0.1;
+
+    await driver.touchPerform([{ action: "tap", options: { x: X, y: Y } }]);
+    await driver.pause(5000); 
+
+    console.log(`Tapped on corner at (${X}, ${Y})`);
+  } catch (err) {
+    console.error("Failed to tap on corner:", err.message);
+  }
+}
+
+
+
 
 export async function waitAndClick(
   driver,
@@ -24,8 +42,8 @@ export async function waitAndClick(
       `Element "${selector}" not found or not clickable within ${timeout}ms. Error: ${error.message}`
     );
     if (!optinal) {
-      console.log("optinal-->", optinal);
-      console.log("This step is optional, continuing...");
+      // console.log("optinal-->", optinal);
+      // console.log("This step is optional, continuing...");
       throw error;
     }
   }
@@ -45,8 +63,9 @@ export async function waitAndType(driver, selector, text, timeout = 5000) {
     await element.addValue(text);
     console.log(`Typed "${text}" into element: ${selector}`);
 
-    await driver.hideKeyboard(); //This is the best approach but it will not work in all devices
+    //await driver.hideKeyboard(); //This is the best approach but it will not work in all devices
 
+    await clickOnTheCorner(driver); // this is a workaround to hide the keyboard by clicking on the corner of the screen
     
   } catch (error) {
     console.log(
