@@ -1,6 +1,7 @@
 import { waitAndClick, waitAndType,elementExists } from "../utils/element-actions.js";
 import { LocationPermission } from "./location-permition.js";
 import { Welcome } from "./welcome-page.js";
+import { NotificationsPremation } from "./notification-permation.js";
 
 export class Authentication {
   // Data
@@ -23,9 +24,10 @@ export class Authentication {
   // classes
   LocationPermission = null;
   Welcome = null;
+  notif = null;
 
   // temp btn (from setting and home pages)
-  settingsBtn = '-android uiautomator:new UiSelector().className(\"android.widget.ImageView\").instance(17)';
+  settingsBtn = '-android uiautomator:new UiSelector().className(\"android.widget.ImageView\").instance(19)';
   accountMangementBtn = 'accessibility id:Account Management';
   deleteAccountBtn = 'accessibility id:Delete account';
 comfirmDeleteBtn = 'accessibility id:Delete it';
@@ -34,6 +36,7 @@ comfirmDeleteBtn = 'accessibility id:Delete it';
     console.log("Authentication");
     this.LocationPermission = new LocationPermission(opional);
     this.Welcome = new Welcome();
+    this.notif = new NotificationsPremation(opional);
   }
 
   // Methods
@@ -71,18 +74,28 @@ comfirmDeleteBtn = 'accessibility id:Delete it';
     switch (PermissionType) {
       case "ALLOW":
         console.log("ALLOW flow");
-        await this.LocationPermission.grantSimpleLocationPermission(
+        await this.LocationPermission.grantRunTimeLocationPermission(
           driver,
-          "ALLOW"
-        );
+          "WHILE"
+        )
+        // await this.LocationPermission.grantSimpleLocationPermission(
+        //   driver,
+        //   "ALLOW"
+        // );
         //bug
         break;
       case "DENY":
         console.log("DENY flow");
-        await this.LocationPermission.grantSimpleLocationPermission(
+
+        await this.LocationPermission.grantRunTimeLocationPermission(
           driver,
           "DENY"
-        );
+        )
+
+        // await this.LocationPermission.grantSimpleLocationPermission(
+        //   driver,
+        //   "DENY"
+        // );
         await waitAndClick(driver, this.searchCountryField, 5000);
         await waitAndType(driver, this.searchCountryField, this.contry, 5000);
         // need to select the country -->jordan
@@ -104,22 +117,27 @@ comfirmDeleteBtn = 'accessibility id:Delete it';
           console.log("Handling location permission after welcome screen");
           await waitAndClick(driver, this.allowAutomaticallyBtn, 10000, true);
           // deny or allow__: deny will ask again
-          await this.LocationPermission.grantSimpleLocationPermission(
+          await this.LocationPermission.grantRunTimeLocationPermission(
             driver,
-            "ALLOW"
-          );
+            "WHILE"
+          )
+          // await this.LocationPermission.grantSimpleLocationPermission(
+          //   driver,
+          //   "ALLOW"
+          // );
           // allow --> location search --> search and click
-          await waitAndClick(driver, this.searchCountryField, 5000);
+          await waitAndClick(driver, this.searchCountryField, 15000);
           await waitAndType(driver, this.searchCountryField, this.location, 5000);
           await waitAndClick(
             driver,
             `-android uiautomator:new UiSelector().descriptionContains("${this.location}")`,
             5000
           );
-        
+        await this.notif.allowNotifications(driver);
         break;
     }
   }
+  
     // somthig like ads so we skip it
     await waitAndClick(driver, this.xbtn, 5000);
     // delete the account

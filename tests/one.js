@@ -20,7 +20,7 @@ async function runTest() {
     //await auth.continueAsGuestClick(driver);
     //await auth.loginWithGoogle(driver,loginEmail);
     await auth.signUpWithGoogle(driver, signupEmail, "DENY");
-    //await notif.allowNotifications(driver);
+    
 
     console.log("tests passed successfully");
   } finally {
