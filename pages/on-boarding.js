@@ -1,4 +1,4 @@
-import { waitAndClick, waitAndType } from "../utils/element-actions.js";
+import { waitAndClick, waitAndType,elementExists } from "../utils/element-actions.js";
 import { LocationPermission } from "./location-permition.js";
 import { Welcome } from "./welcome-page.js";
 
@@ -7,8 +7,8 @@ export class Authentication {
   contry = "Jordan";
   location = "Irbid";
   // Buttons
-  xbtn = "accessibility id:\nClose";
-  allowAutomaticallyBtn = "accessibility id:Allow Automatically";
+  xbtn = '-android uiautomator:new UiSelector().descriptionContains("Close")';
+  allowAutomaticallyBtn = 'accessibility id:Allow automatically';
   continueAsGuestBtn = "accessibility id:Continue as Guest";
   login_signupBtn = "accessibility id:Login/Signup";
   continueWithGoogleBtn = "accessibility id:Continue with Google";
@@ -24,6 +24,11 @@ export class Authentication {
   LocationPermission = null;
   Welcome = null;
 
+  // temp btn (from setting and home pages)
+  settingsBtn = '-android uiautomator:new UiSelector().className(\"android.widget.ImageView\").instance(17)';
+  accountMangementBtn = 'accessibility id:Account Management';
+  deleteAccountBtn = 'accessibility id:Delete account';
+comfirmDeleteBtn = 'accessibility id:Delete it';
   //constructor
   constructor(opional) {
     console.log("Authentication");
@@ -89,12 +94,15 @@ export class Authentication {
         //continue
         await waitAndClick(driver, this.continueBtn, 5000);
         // skip for later --> welcome screen
-        if (await driver.$(this.Welcome.skipBtn).isExisting()) {
+        
           await this.Welcome.skipWelcomeScreen(driver);
-        }
+          console.log("Skipped welcome screen");
+        
         // location permission --> allow automatically
-        if(await driver.$(this.allowAutomaticallyBtn).isExisting()){
-          await waitAndClick(driver, this.allowAutomaticallyBtn, 5000, true);
+        if(elementExists(driver,this.allowAutomaticallyBtn,5000))
+       {
+          console.log("Handling location permission after welcome screen");
+          await waitAndClick(driver, this.allowAutomaticallyBtn, 10000, true);
           // deny or allow__: deny will ask again
           await this.LocationPermission.grantSimpleLocationPermission(
             driver,
@@ -105,12 +113,22 @@ export class Authentication {
           await waitAndType(driver, this.searchCountryField, this.location, 5000);
           await waitAndClick(
             driver,
-            `-android uiautomator:new UiSelector().descriptionContains(${this.location})`,
+            `-android uiautomator:new UiSelector().descriptionContains("${this.location}")`,
             5000
           );
-        }
+        
         break;
     }
+  }
+    // somthig like ads so we skip it
     await waitAndClick(driver, this.xbtn, 5000);
+    // delete the account
+    await waitAndClick(driver, this.settingsBtn, 5000);
+    await waitAndClick(driver, this.accountMangementBtn, 5000);
+    await waitAndClick(driver, this.deleteAccountBtn, 5000);
+    await waitAndClick(driver, this.comfirmDeleteBtn, 5000);
+    console.log("Account deleted successfully");
+
+
   }
 }

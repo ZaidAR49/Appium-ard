@@ -70,7 +70,10 @@ export async function waitAndType(driver, selector, text, timeout = 5000) {
   }
 }
 // future use
-export async function waitAndGetText(){}
+export async function waitAndGetText(driver,selector,timeout=5000){
+
+  
+}
 
 // i feel its useless but I will keep it for future use
 export async function elementExists(driver, selector, timeout = 5000) {

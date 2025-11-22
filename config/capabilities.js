@@ -11,7 +11,11 @@ export const capabilities = {
 	'appium:settings[ignoreUnimportantViews]':true,
 	'appium:noReset':false,
 	"appium:fullReset": true,
-	'appium:newCommandTimeout': 500
+	'appium:newCommandTimeout': 500,
+    'appium:logLevel': "info",
+    'appium:reporter': "junit", // or "json", "html", "spec", etc.
+   'appium:reportDir': "./reports" // where the report will be saved
+    
 
 
 };
