@@ -11,16 +11,13 @@ export async function clickOnTheCorner(driver) {
     const Y = rect.y + rect.height * 0.1;
 
     await driver.touchPerform([{ action: "tap", options: { x: X, y: Y } }]);
-    await driver.pause(5000); 
+    await driver.pause(5000);
 
     console.log(`Tapped on corner at (${X}, ${Y})`);
   } catch (err) {
     console.error("Failed to tap on corner:", err.message);
   }
 }
-
-
-
 
 export async function waitAndClick(
   driver,
@@ -51,7 +48,6 @@ export async function waitAndClick(
 
 export async function waitAndType(driver, selector, text, timeout = 5000) {
   try {
-    
     const element = await driver.$(selector);
 
     await element.waitForExist({ timeout });
@@ -66,11 +62,27 @@ export async function waitAndType(driver, selector, text, timeout = 5000) {
     //await driver.hideKeyboard(); //This is the best approach but it will not work in all devices
 
     await clickOnTheCorner(driver); // this is a workaround to hide the keyboard by clicking on the corner of the screen
-    
   } catch (error) {
     console.log(
       `Element "${selector}" not found or not typeable within ${timeout}ms. Error: ${error.message}`
     );
     throw error;
+  }
+}
+// future use
+export async function waitAndGetText(){}
+
+// i feel its useless but I will keep it for future use
+export async function elementExists(driver, selector, timeout = 5000) {
+
+  try {
+    const element = await driver.$(selector);
+    await element.waitForExist({ timeout });
+    console.log(`from element exsist function:Element "${selector}" exists.`);
+    return true;
+  }
+  catch (error) {
+    console.log(`Element "${selector}" does not exist within ${timeout}ms.`);
+    return false;
   }
 }

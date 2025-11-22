@@ -7,6 +7,7 @@ export class Authentication {
   contry = "Jordan";
   location = "Irbid";
   // Buttons
+  xbtn = "accessibility id:\nClose";
   allowAutomaticallyBtn = "accessibility id:Allow Automatically";
   continueAsGuestBtn = "accessibility id:Continue as Guest";
   login_signupBtn = "accessibility id:Login/Signup";
@@ -16,7 +17,7 @@ export class Authentication {
   signUpBtn = "accessibility id:Sign Up";
   // Fields
   emailField = "class name:android.widget.EditText";
-  fullNameField = "new UiSelector().className('android.widget.EditText')"; //
+  fullNameField = 'class name:android.widget.EditText'; //
   searchCountryField = "class name:android.widget.EditText"; //
   locationField = `-android uiautomator:new UiSelector().className(\"android.view.View\").instance(8)`;
   // classes
@@ -57,7 +58,7 @@ export class Authentication {
     await waitAndClick(
       driver,
       this.accountOption.replace("email", emailaddress),
-      5000
+      10000
     );
     await waitAndClick(driver, this.fullNameField, 5000);
     await waitAndType(driver, this.fullNameField, "Zied Radiadeh", 5000);
@@ -88,23 +89,28 @@ export class Authentication {
         //continue
         await waitAndClick(driver, this.continueBtn, 5000);
         // skip for later --> welcome screen
-        await this.Welcome.skipWelcomeScreen(driver);
+        if (await driver.$(this.Welcome.skipBtn).isExisting()) {
+          await this.Welcome.skipWelcomeScreen(driver);
+        }
         // location permission --> allow automatically
-        await waitAndClick(driver, this.allowAutomaticallyBtn, 5000);
-        // deny or allow__: deny will ask again
-        await this.LocationPermission.grantSimpleLocationPermission(
-          driver,
-          "ALLOW"
-        );
-        // allow --> location search --> search and click
-        await waitAndClick(driver, this.searchCountryField, 5000);
-        await waitAndType(driver, this.searchCountryField, this.location, 5000);
-        await waitAndClick(
-          driver,
-          `-android uiautomator:new UiSelector().descriptionContains(${this.location})`,
-          5000
-        );
+        if(await driver.$(this.allowAutomaticallyBtn).isExisting()){
+          await waitAndClick(driver, this.allowAutomaticallyBtn, 5000, true);
+          // deny or allow__: deny will ask again
+          await this.LocationPermission.grantSimpleLocationPermission(
+            driver,
+            "ALLOW"
+          );
+          // allow --> location search --> search and click
+          await waitAndClick(driver, this.searchCountryField, 5000);
+          await waitAndType(driver, this.searchCountryField, this.location, 5000);
+          await waitAndClick(
+            driver,
+            `-android uiautomator:new UiSelector().descriptionContains(${this.location})`,
+            5000
+          );
+        }
         break;
     }
+    await waitAndClick(driver, this.xbtn, 5000);
   }
 }
