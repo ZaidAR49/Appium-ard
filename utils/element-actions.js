@@ -85,7 +85,7 @@ export async function elementExists(driver, selector, timeout = 5000) {
     return true;
   }
   catch (error) {
-    console.log(`Element "${selector}" does not exist within ${timeout}ms.`);
+    console.log(`from element exsist function:Element "${selector}" does not exist within ${timeout}ms.`);
     return false;
   }
 }

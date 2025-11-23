@@ -105,7 +105,7 @@ comfirmDeleteBtn = 'accessibility id:Delete it';
           5000
         );
         //continue
-        await waitAndClick(driver, this.continueBtn, 5000);
+        await waitAndClick(driver, this.continueBtn, 10000);
         // skip for later --> welcome screen
         
           await this.Welcome.skipWelcomeScreen(driver);
@@ -133,11 +133,11 @@ comfirmDeleteBtn = 'accessibility id:Delete it';
             `-android uiautomator:new UiSelector().descriptionContains("${this.location}")`,
             5000
           );
-        await this.notif.allowNotifications(driver);
+        
         break;
     }
   }
-  
+  await this.notif.allowNotifications(driver);
     // somthig like ads so we skip it
     await waitAndClick(driver, this.xbtn, 5000);
     // delete the account
