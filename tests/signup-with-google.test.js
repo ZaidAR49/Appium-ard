@@ -4,7 +4,7 @@ import { setLocationByName } from "../utils/geo-Location.js";
 import { afterSuite } from "../utils/suite-hooks.js";
 //import {waitAndClick} from "../utils/wait-and-click.js";
 import { Authentication } from "../pages/on-boarding.js";
-import { NotificationsPremation } from "../pages/notification-permation.js";
+import { strict as assert } from "assert";
 dotenv.config({ path: "../.env" });
 async function runTest() {
   const driver = await createDriver();
@@ -20,4 +20,9 @@ async function runTest() {
   }
 }
 
-runTest().catch(console.error);
+describe("Signup with Google Test", () => {
+  it("should sign up using Google account", async () => {
+   runTest().catch(console.error);
+  });});
+
+

@@ -15,8 +15,8 @@ constructor({optional = false} = {}){
 }
   async allowNotifications(driver) {
 
-    await waitAndClick(driver, this.allowBtn, 5000,this.optional);
-    await waitAndClick(driver, this.acceptBtn, 5000,this.optional);
+    await waitAndClick(driver, this.allowBtn, 50000,this.optional);
+    await waitAndClick(driver, this.acceptBtn, 10000,this.optional);
   }
 async denyNotifications(driver) {
 
