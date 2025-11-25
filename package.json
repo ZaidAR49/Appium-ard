@@ -28,6 +28,7 @@
     "chai": "^4.3.10",
     "dotenv": "^17.2.3",
     "node-geocoder": "^4.4.1",
+    "pino": "^10.1.0",
     "webdriverio": "^8.46.0"
   },
   "devDependencies": {

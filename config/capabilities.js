@@ -14,8 +14,8 @@ export const capabilities = {
 	'appium:newCommandTimeout': 500,
     'appium:logLevel': "info",
     'appium:reporter': "junit", // or "json", "html", "spec", etc.
-   'appium:reportDir': "./reports" // where the report will be saved
-    
+   'appium:reportDir': "./reports", // where the report will be saved
+    "appium:allowInsecure": ["*:adb_shell"]
 
 
 };

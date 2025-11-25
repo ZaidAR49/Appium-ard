@@ -1,5 +1,5 @@
 import { waitAndClick } from "../utils/element-actions.js";
-export class NotificationsPremation {
+export class Notifications {
   // Buttons
   allowBtn = "accessibility id:Allow";
   enableLaterBtn = "accessibility id:Enable Later";

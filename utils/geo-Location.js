@@ -5,28 +5,26 @@ import dotenv from 'dotenv';
 dotenv.config({ path: '../.env' });
 const execAsync = promisify(exec);
 
-export async function setLocationByName(
-  driver,
-  placeName,
-) {
+export async function setLocationByName(placeName) {
   try {
-    console.log("the api key is :",process.env.LOCATIONIQAPI);
-    await driver.updateSettings({
-      allowInvisibleElements: true,
+    console.log("API Key:", process.env.LOCATIONIQAPI);
+
+    const geocoder = NodeGeocoder({
+      provider: 'locationiq',
+      apiKey: process.env.LOCATIONIQAPI,
     });
 
-const geocoder = NodeGeocoder({
-  provider: 'locationiq',
-  apiKey: process.env.LOCATIONIQAPI, // free 
-});
+    const results = await geocoder.geocode(placeName);
+    if (!results || results.length === 0) {
+      throw new Error("Place not found: " + placeName);
+    }
 
-const res = await geocoder.geocode("Irbid, Jordan");
-// res[0].latitude, res[0].longitude
+    const { latitude, longitude, altitude = 0 } = results[0];
 
-
-    const cmd = `adb shell am broadcast -a io.appium.settings.location -e longitude ${res.longitude} -e latitude ${res.latitude} -e altitude ${res.altitude}`;
+    const cmd = `adb shell am broadcast -a io.appium.settings.location -e latitude ${latitude} -e longitude ${longitude} -e altitude ${altitude}`;
     await execAsync(cmd);
-    console.log(`Successfully set location to ${placeName}`);
+
+    console.log(`Successfully set location to ${placeName} (${latitude}, ${longitude})`);
   } catch (err) {
     console.error("Failed to set location:", err.message);
     throw err;
@@ -50,3 +48,26 @@ export function getDeviceLocation() {
     });
   });
 }
+
+
+export async function enableLocation() {
+  try {
+    await execAsync("adb shell cmd location set-location-enabled true");
+    console.log("Location service enabled.");
+  } catch (err) {
+    console.error("Failed to enable location:", err.message);
+    throw err;
+  }
+}
+
+
+export async function disableLocation() {
+  try {
+    await execAsync("adb shell cmd location set-location-enabled false");
+    console.log("Location service disabled.");
+  } catch (err) {
+    console.error("Failed to disable location:", err.message);
+    throw err;
+  }
+}
+
