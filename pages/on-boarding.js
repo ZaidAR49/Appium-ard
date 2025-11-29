@@ -1,5 +1,6 @@
 import { waitAndClick, waitAndType } from "../utils/element-actions.js";
 import { Location } from "./location.js";
+import { logMessage } from "../utils/suite-hooks.js";
 export class Authentication {
   // #region attributes
   //region variables
@@ -25,16 +26,18 @@ export class Authentication {
   //endregion
   // #endregion
   constructor(name = "Zied Radiadeh", optional = true) {
-    console.log("Authentication");
+    logMessage("info", "Authentication");
     this.Location = new Location({ optional });
     this.name = name;
   }
 
   //#region Methods
   async continueAsGuest(driver) {
+    logMessage("info", "continueAsGuest");
     await waitAndClick(driver, this.continueAsGuestBtn, 5000);
   }
   async loginWithGoogle(driver, emailaddress) {
+    logMessage("info", "loginWithGoogle");
     await waitAndClick(driver, this.login_signupBtn, 5000);
     await waitAndClick(driver, this.continueWithGoogleBtn, 5000);
     await waitAndClick(
@@ -51,7 +54,7 @@ export class Authentication {
     //....
   }
   async signUpWithGoogle(driver, emailaddress, PermissionType) {
-    console.log("selecting google account");
+    logMessage("info", "selecting google account");
     await waitAndClick(driver, this.login_signupBtn, 10000);
     await waitAndClick(driver, this.signUpBtn, 5000);
     await waitAndClick(driver, this.continueWithGoogleBtn, 5000);
@@ -61,20 +64,22 @@ export class Authentication {
       15000
     );
     await driver.pause(5000);
-    console.log("filling user data ");
+    logMessage("info", "filling user data ");
     await waitAndClick(driver, this.fullNameField, 15000);
     await waitAndType(driver, this.fullNameField, "Zaid", 15000);
     await waitAndClick(driver, this.countryField, 15000);
     //select country
     await this.Location.grantRunTimeLocationPermission(driver, PermissionType);
-    console.log("clicking continue button");
+    logMessage("info", "clicking continue button");
     this.clickOnCountueBtn(driver);
   }
   //#endregion
   async clickOnCountueBtn(driver) {
+    logMessage("info", "clicking continue button");
     await waitAndClick(driver, this.continueBtn, 5000);
   }
   async closeOnBoardingScreen(driver) {
+    logMessage("info", "closeOnBoardingScreen");
     await waitAndClick(driver, this.xbtn, 10000);
   }
 }

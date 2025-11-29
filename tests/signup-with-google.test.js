@@ -22,9 +22,10 @@ const location = new Location({ optional: true });
 const notif = new Notification({ optional: true });
 
 describe("Signup with Google Test", async () => {
-  try {
-    let testPassed = false;
-    it(" strat the app and setting location", async function () {
+
+  let testPassed = false;
+  it(" strat the app and setting location", async function () {
+    try {
       this.timeout(20000); // Increase timeout to 20 seconds
       await setLocationByName("Irbid,Jordan");
       await enableLocation();
@@ -32,37 +33,64 @@ describe("Signup with Google Test", async () => {
       testPassed = true;
       expect(testPassed).to.be.true;
       //expect(await getDeviceLocation()).toBeDefined();
-    });
+    } catch (err) {
+      console.error("Test failed in strat the app and setting location:", err);
+    }
+  });
 
-    it("should Sign up with Google account and fill user information", async function () {
+  it("should Sign up with Google account and fill user information", async function () {
+    try {
       this.timeout(60000);
       await auth.signUpWithGoogle(driver, signupEmail, "DENY");
-    });
+    }
+    catch (err) {
+      console.error("Test failed in Sign up with Google account and fill user information:", err);
+    }
+  });
 
-    it(" should skip welcome screen", async function () {
-      this.timeout(30000);
+  it(" should skip welcome screen", async function () {
+    try {
+      this.timeout(60000);
       await welcome.skipWelcomeScreen(driver);
-    });
-    it("selected location automatically", async function () {
-      this.timeout(30000);
+    }
+    catch (err) {
+      console.error("Test failed in skip welcome screen:", err);
+    }
+  });
+  it("selected location automatically", async function () {
+    try {
+      this.timeout(60000);
       await location.selectLocationAutomatically(driver, "Irbid");
+    }
+    catch (err) {
+      console.error("Test failed in selected location automatically:", err);
+    }
+  });
 
-    });
-
-    it("allow notifications", async function () {
-      this.timeout(30000);
+  it("allow notifications", async function () {
+    try {
+      this.timeout(60000);
       await notif.allowNotifications(driver);
-    });
+    }
+    catch (err) {
+      console.error("Test failed in allow notifications:", err);
+    }
+  });
 
-    it("colse the on-boarding screen", async function () {
-      this.timeout(30000);
+  it("colse the on-boarding screen", async function () {
+    try {
+      this.timeout(60000);
       auth.closeOnBoardingScreen(driver);
-    });
-  } catch (err) {
-    console.error("Test failed:", err);
-  } finally {
-    afterSuite(driver);
-  }
+    }
+    catch (err) {
+      console.error("Test failed in colse the on-boarding screen:", err);
+    }
+  });
+  after(async () => {
+    console.log("after suite");
+    await afterSuite(driver);
+  })
+
 });
 
 

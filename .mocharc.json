@@ -1,0 +1,18 @@
+{
+  "spec": "tests/**/*.test.js",
+  "timeout": 60000,
+  "require": "dotenv/config",
+  "node-option": [
+    "experimental-modules"
+  ],
+  "reporter": "mochawesome",
+  "reporter-option": [
+    "reportDir=./reports",
+    "reportFilename=appium-test-report",
+    "quiet=true",
+    "overwrite=true",
+    "html=true",
+    "json=true",
+    "overwrite=true"
+  ]
+}
