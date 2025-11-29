@@ -31,23 +31,23 @@ export async function setLocationByName(placeName) {
   }
 }
 
-export function getDeviceLocation() {
-  return new Promise((resolve, reject) => {
-    exec("adb shell dumpsys location", (err, stdout) => {
-      if (err) return reject(err);
+// export function getDeviceLocation() {
+//   return new Promise((resolve, reject) => {
+//     exec("adb shell dumpsys location", (err, stdout) => {
+//       if (err) return reject(err);
 
-      const match = stdout.match(
-        /gps\[.*?([0-9]+\.[0-9]+),\s*([0-9]+\.[0-9]+)/
-      );
-      if (!match) return reject("No location found");
+//       const match = stdout.match(
+//         /gps\[.*?([0-9]+\.[0-9]+),\s*([0-9]+\.[0-9]+)/
+//       );
+//       if (!match) return reject("No location found");
 
-      resolve({
-        latitude: parseFloat(match[1]),
-        longitude: parseFloat(match[2]),
-      });
-    });
-  });
-}
+//       resolve({
+//         latitude: parseFloat(match[1]),
+//         longitude: parseFloat(match[2]),
+//       });
+//     });
+//   });
+// }
 
 
 export async function enableLocation() {
