@@ -11,6 +11,7 @@ import { Authentication } from "../pages/on-boarding.js";
 import { Welcome } from "../pages/welcome.js";
 import { Location } from "../pages/location.js";
 import { Notification } from "../pages/notification.js";
+import{ Settings} from "../pages/setting.js";
 dotenv.config({ path: "../.env" });
 
 const driver = await createDriver();
@@ -23,9 +24,10 @@ const notif = new Notification({ optional: true });
 
 describe("Signup with Google Test", async () => {
 
-  let testPassed = false;
+  
   it(" strat the app and setting location", async function () {
     try {
+      let testPassed = false;
       this.timeout(20000); // Increase timeout to 20 seconds
       await setLocationByName("Irbid,Jordan");
       await enableLocation();
@@ -86,6 +88,18 @@ describe("Signup with Google Test", async () => {
       console.error("Test failed in colse the on-boarding screen:", err);
     }
   });
+  it("delete the created account", async function () {
+    try {
+      this.timeout(60000);
+      const settings = new Settings();
+      await settings.deleteAccount(driver);
+
+    }catch (err) {
+      console.error("Test failed in delete the created account:", err);
+    }
+    });
+
+      
   after(async () => {
     console.log("after suite");
     await afterSuite(driver);
