@@ -1,6 +1,6 @@
 import { waitAndClick, waitAndType } from "../utils/element-actions.js";
 import { Location } from "./location.js";
-import { logMessage } from "../utils/suite-hooks.js";
+import { logMessage } from "../utils/general.js";
 export class Authentication {
   // #region attributes
   //region variables

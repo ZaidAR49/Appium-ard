@@ -12,6 +12,7 @@ import { Welcome } from "../pages/welcome.js";
 import { Location } from "../pages/location.js";
 import { Notification } from "../pages/notification.js";
 import{ Settings} from "../pages/setting.js";
+import { logMessage } from "../utils/general.js";
 dotenv.config({ path: "../.env" });
 
 const driver = await createDriver();
@@ -36,7 +37,9 @@ describe("Signup with Google Test", async () => {
       expect(testPassed).to.be.true;
       //expect(await getDeviceLocation()).toBeDefined();
     } catch (err) {
+      
       console.error("Test failed in strat the app and setting location:", err);
+      expect.fail("strat the app and setting location failed");
     }
   });
 
@@ -47,6 +50,7 @@ describe("Signup with Google Test", async () => {
     }
     catch (err) {
       console.error("Test failed in Sign up with Google account and fill user information:", err);
+      expect.fail("Sign up with Google account and fill user information failed");
     }
   });
 
@@ -57,6 +61,7 @@ describe("Signup with Google Test", async () => {
     }
     catch (err) {
       console.error("Test failed in skip welcome screen:", err);
+      expect
     }
   });
   it("selected location automatically", async function () {
@@ -66,6 +71,7 @@ describe("Signup with Google Test", async () => {
     }
     catch (err) {
       console.error("Test failed in selected location automatically:", err);
+      expect.fail("selected location automatically failed");
     }
   });
 
@@ -76,6 +82,7 @@ describe("Signup with Google Test", async () => {
     }
     catch (err) {
       console.error("Test failed in allow notifications:", err);
+      expect.fail("allow notifications failed");
     }
   });
 
@@ -86,22 +93,23 @@ describe("Signup with Google Test", async () => {
     }
     catch (err) {
       console.error("Test failed in colse the on-boarding screen:", err);
+      expect.fail("colse the on-boarding screen failed");
     }
   });
-  it("delete the created account", async function () {
-    try {
-      this.timeout(60000);
-      const settings = new Settings();
-      await settings.deleteAccount(driver);
-
-    }catch (err) {
-      console.error("Test failed in delete the created account:", err);
-    }
-    });
+  
 
       
   after(async () => {
     console.log("after suite");
+    try {
+      
+      const settings = new Settings();
+      await settings.deleteAccount(driver);
+logMessage("success", "delete the created account");
+    }catch (err) {
+      console.error("Test failed in delete the created account:", err);
+      expect.fail("delete the created account failed");
+    }
     await afterSuite(driver);
   })
 
