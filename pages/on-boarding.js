@@ -1,10 +1,8 @@
 import { waitAndClick, waitAndType } from "../utils/element-actions.js";
 import { Location } from "./location.js";
 import { logMessage } from "../utils/general.js";
-import  dotenv  from "dotenv";
-import { MailSlurp } from "mailslurp-client";
-import { extractOtp } from "../utils/otp-extractor.js";
-dotenv.config({ path: "../.env" });
+import { FakeEmail } from "../utils/email-helper.js";
+
 export class Authentication {
   // #region attributes
   //region variables
@@ -24,9 +22,9 @@ export class Authentication {
   fullNameField = "class name:android.widget.EditText";
   countryField = `-android uiautomator:new UiSelector().className(\"android.view.View\").instance(8)`;
   // Sign up via email
-  fullNameField_2='-android uiautomator:new UiSelector().className("android.widget.EditText").instance(0)';
-  emailField_2='-android uiautomator:new UiSelector().className("android.widget.EditText").instance(1)';
-  countryField_2='-android uiautomator:new UiSelector().className("android.view.View").instance(9)';
+  fullNameField_2 = '-android uiautomator:new UiSelector().className("android.widget.EditText").instance(0)';
+  emailField_2 = '-android uiautomator:new UiSelector().className("android.widget.EditText").instance(1)';
+  countryField_2 = '-android uiautomator:new UiSelector().className("android.view.View").instance(9)';
   // #endregion
   // endregion
   // #region classes
@@ -81,48 +79,31 @@ export class Authentication {
     logMessage("info", "clicking continue button");
     this.clickOnCountueBtn(driver);
   }
-  async signUpWithEmail(driver,PermissionType){
+  async signUpWithEmail(driver, PermissionType) {
     logMessage("info", "signUpWithEmail");
-   
+
     await waitAndClick(driver, this.login_signupBtn, 10000);
     await waitAndClick(driver, this.signUpBtn, 5000);
-  logMessage("info", "filling user data ");
+    logMessage("info", "filling user data ");
     await waitAndClick(driver, this.fullNameField_2, 15000);
     await waitAndType(driver, this.fullNameField_2, "Zaid", 15000);
     await waitAndClick(driver, this.countryField_2, 15000);
     //select country
     await this.Location.grantRunTimeLocationPermission(driver, PermissionType);
-    // wrrite email
-    const api=process.env.MailSlurpAPIKey;
-    if(!api){
-      throw new Error("MailSlurpAPIKey is not defined in .env file");
-    }
-    
-    const mailslurp = new MailSlurp({ apiKey: api });
-    const inbox = await mailslurp.createInbox();
-    logMessage("info", `Generated email address: ${inbox.emailAddress}`);
+    const fakeEmail = new FakeEmail();
+    const inbox = await fakeEmail.getInbox();
     await waitAndClick(driver, this.emailField_2, 15000);
     await waitAndType(driver, this.emailField_2, inbox.emailAddress, 15000);
     logMessage("info", "clicking continue button");
     this.clickOnCountueBtn(driver);
-     const emailMessage = await mailslurp.waitForLatestEmail(inbox.id, 30_000);
-      if (!emailMessage) {
-        throw new Error("No email received within the timeout period");
-      }
-      logMessage("info",emailMessage);
-     const otp=extractOtp(emailMessage.body);
-     logMessage("info", `Extracted OTP: ${otp}`);
-      if(!otp){
-        throw new Error("OTP could not be extracted from the email body");
-      
-      }
-await driver.execute("mobile: type", {
-  text: otp
-});
-await driver.pause(10000);
+    await driver.pause(5000);
+    await driver.execute("mobile: type", {
+      text: await fakeEmail.getOTP(inbox.id)
+    });
+    await driver.pause(10000);
 
   }
-    async clickOnCountueBtn(driver) {
+  async clickOnCountueBtn(driver) {
     logMessage("info", "clicking continue button");
     await waitAndClick(driver, this.continueBtn, 5000);
   }
@@ -131,5 +112,5 @@ await driver.pause(10000);
     await waitAndClick(driver, this.xbtn, 10000);
   }
 }
-  //#endregion
+//#endregion
 
