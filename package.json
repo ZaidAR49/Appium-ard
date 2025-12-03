@@ -29,6 +29,7 @@
     "chai": "^4.3.10",
     "dotenv": "^17.2.3",
     "imap": "^0.8.19",
+    "imap-simple": "^5.1.0",
     "mailparser": "^3.9.0",
     "mailslurp-client": "^16.0.0",
     "node-geocoder": "^4.4.1",
