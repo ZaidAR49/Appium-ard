@@ -2,11 +2,10 @@ import { waitAndClick, waitAndType } from "../utils/element-actions.js";
 import { Location } from "./location.js";
 import { logMessage } from "../utils/general.js";
 import { FakeEmail } from "../utils/email-helper.js";
+import { getLoginOTP } from "../utils/email-helper.js";
 
 export class Authentication {
   // #region attributes
-  //region variables
-  name;
   //#region Buttons
   xbtn = '-android uiautomator:new UiSelector().descriptionContains("Close")';
   continueAsGuestBtn = "accessibility id:Continue as Guest";
@@ -27,14 +26,15 @@ export class Authentication {
   countryField_2 = '-android uiautomator:new UiSelector().className("android.view.View").instance(9)';
   // #endregion
   // endregion
+  // messages
+
   // #region classes
   Location = null;
   //endregion
   // #endregion
-  constructor(name = "Zied Radiadeh", optional = true) {
+  constructor(optional = true) {
     logMessage("info", "Authentication");
     this.Location = new Location({ optional });
-    this.name = name;
   }
 
   //#region Methods
@@ -57,9 +57,15 @@ export class Authentication {
     await waitAndClick(driver, this.emailField, 5000);
     await waitAndType(driver, this.emailField, emailaddress, 5000);
     await waitAndClick(driver, this.continueBtn, 5000);
+
+    await driver.pause(5000);
+    await driver.execute("mobile: type", {
+      text: await getLoginOTP(emailaddress)
+    });
+    await driver.pause(10000);
     //....
   }
-  async signUpWithGoogle(driver, emailaddress, PermissionType) {
+  async signUpWithGoogle(driver, emailaddress, PermissionType, name) {
     logMessage("info", "selecting google account");
     await waitAndClick(driver, this.login_signupBtn, 10000);
     await waitAndClick(driver, this.signUpBtn, 5000);
@@ -72,21 +78,21 @@ export class Authentication {
     await driver.pause(5000);
     logMessage("info", "filling user data ");
     await waitAndClick(driver, this.fullNameField, 15000);
-    await waitAndType(driver, this.fullNameField, "Zaid", 15000);
+    await waitAndType(driver, this.fullNameField, name, 15000);
     await waitAndClick(driver, this.countryField, 15000);
     //select country
     await this.Location.grantRunTimeLocationPermission(driver, PermissionType);
     logMessage("info", "clicking continue button");
     this.clickOnCountueBtn(driver);
   }
-  async signUpWithEmail(driver, PermissionType) {
+  async signUpWithEmail(driver, PermissionType, name) {
     logMessage("info", "signUpWithEmail");
 
     await waitAndClick(driver, this.login_signupBtn, 10000);
     await waitAndClick(driver, this.signUpBtn, 5000);
     logMessage("info", "filling user data ");
     await waitAndClick(driver, this.fullNameField_2, 15000);
-    await waitAndType(driver, this.fullNameField_2, "Zaid", 15000);
+    await waitAndType(driver, this.fullNameField_2, name, 15000);
     await waitAndClick(driver, this.countryField_2, 15000);
     //select country
     await this.Location.grantRunTimeLocationPermission(driver, PermissionType);
@@ -94,7 +100,6 @@ export class Authentication {
     const inbox = await fakeEmail.getInbox();
     await waitAndClick(driver, this.emailField_2, 15000);
     await waitAndType(driver, this.emailField_2, inbox.emailAddress, 15000);
-    logMessage("info", "clicking continue button");
     this.clickOnCountueBtn(driver);
     await driver.pause(5000);
     await driver.execute("mobile: type", {
@@ -113,4 +118,5 @@ export class Authentication {
   }
 }
 //#endregion
+
 

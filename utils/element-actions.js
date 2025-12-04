@@ -60,9 +60,6 @@ export async function waitAndType(driver, selector, text, timeout = 5000) {
     await element.addValue(text);
     logMessage("info", `Typed text into element: ${selector}`);
 
-    //await driver.hideKeyboard(); //This is the best approach but it will not work in all devices
-
-    await clickOnTheCorner(driver); // this is a workaround to hide the keyboard by clicking on the corner of the screen
   } catch (error) {
     logMessage("error", `Failed to type into element "${selector}" within ${timeout}ms. Error: ${error.message}`);
     throw error;

@@ -1,5 +1,5 @@
 {
-  "spec": "tests/**/*.test.js",
+  "spec": "test/**/*.test.js",
   "timeout": 60000,
   "require": "dotenv/config",
   "node-option": [

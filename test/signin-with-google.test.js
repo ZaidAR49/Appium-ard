@@ -8,7 +8,6 @@ dotenv.config({ path: "../.env" });
 
 const driver = await createDriver();
 const loginEmail = process.env.LOGINEMAIL;
-const location = "Irbid,Jordan";
 const auth = new Authentication({ optional: true });
 const notif = new Notification({ optional: true });
 describe("Sign in with Google Test", async () => {
