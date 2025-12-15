@@ -6,6 +6,7 @@
     "experimental-modules"
   ],
   "reporter": "mochawesome",
+  "bail": true,
   "reporter-option": [
     "reportDir=./reports",
     "reportFilename=appium-test-report",

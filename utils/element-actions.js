@@ -1,4 +1,38 @@
 import { logMessage } from "./general.js";
+
+export async function scroll(driver, direction = "down", distance = 300, duration = 500) {
+  try {
+    const { width, height } = await driver.getWindowSize();
+    let startX, startY, endX, endY;
+    startX = width / 2;
+    endX = startX;
+    if (direction === "down") {
+      logMessage("info", "Scrolling down...");
+      startY = height * 0.8;
+      endY = startY - distance;
+    } else if (direction === "up") {
+      logMessage("info", "Scrolling up...");
+      startY = height * 0.2;
+      endY = startY + distance;
+    } else {
+      throw new Error("Invalid direction. Use 'up' or 'down'.");
+    }
+    
+    await driver.action('pointer')
+      .move({ duration: 0, x: startX, y: startY })
+      .down({ button: 0 })
+      .move({ duration, x: endX, y: endY })
+      .up({ button: 0 })
+      .perform();
+    logMessage("info", `Scrolled ${direction} by ${distance} pixels.`);
+  } catch (err) {
+    logMessage("error", `Failed to scroll: ${err.message}`);
+    throw err;
+  }
+}
+
+
+
 export async function clickOnTheCorner(driver) {
   try {
     const content = await driver.$(
@@ -11,7 +45,11 @@ export async function clickOnTheCorner(driver) {
     const X = rect.x + rect.width * 0.9;
     const Y = rect.y + rect.height * 0.1;
 
-    await driver.touchPerform([{ action: "tap", options: { x: X, y: Y } }]);
+    await driver.action('pointer')
+      .move({ duration: 0, x: X, y: Y })
+      .down({ button: 0 })
+      .up({ button: 0 })
+      .perform();
     await driver.pause(5000);
 
 logMessage("info", `Tapped on corner at (${X}, ${Y})`);

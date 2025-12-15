@@ -7,7 +7,7 @@ const execAsync = promisify(exec);
 
 export async function setLocationByName(placeName) {
   try {
-    console.log("API Key:", process.env.LOCATIONIQAPI);
+    //console.log("API Key:", process.env.LOCATIONIQAPI);
 
     const geocoder = NodeGeocoder({
       provider: 'locationiq',

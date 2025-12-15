@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import { remote } from 'webdriverio';
 dotenv.config({ path: '../.env' });
-export const app = './resources/app-file/aw-prod-6.0.12(768).apk';
+export const app = './resources/app-file/aw-prod-6.0.13(777).apk';
 export const capabilities = {
 	platformName: 'Android',
 	'appium:automationName': 'UiAutomator2',
@@ -13,8 +13,8 @@ export const capabilities = {
 	"appium:fullReset": true,
 	'appium:newCommandTimeout': 500,
 	'appium:logLevel': "info",
-	'appium:reporter': "junit", // or "json", "html", "spec", etc.
-	'appium:reportDir': "./reports", // where the report will be saved
+	'appium:reporter': "junit", 
+	'appium:reportDir': "./reports", 
 
 
 
@@ -29,7 +29,7 @@ export const wdOpts = {
 
 
 export async function createDriver(overrides = {}) {
-	// shallow-merge overrides into wdOpts; you can customize merge logic
+	
 	const opts = {
 		...wdOpts,
 		capabilities: { ...wdOpts.capabilities, ...(overrides.capabilities || {}) },
