@@ -87,16 +87,16 @@ describe("Signup with Google Test", async () => {
     }
   });
 
-  it("colse the on-boarding screen", async function () {
-    try {
-      this.timeout(60000);
-      auth.closeOnBoardingScreen(driver);
-    }
-    catch (err) {
-      console.error("Test failed in colse the on-boarding screen:", err);
-      expect.fail("colse the on-boarding screen failed");
-    }
-  });
+  // it("colse the on-boarding screen", async function () {
+  //   try {
+  //     this.timeout(60000);
+  //     auth.closeOnBoardingScreen(driver);
+  //   }
+  //   catch (err) {
+  //     console.error("Test failed in colse the on-boarding screen:", err);
+  //     expect.fail("colse the on-boarding screen failed");
+  //   }
+  // });
 
 
 

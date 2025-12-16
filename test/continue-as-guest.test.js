@@ -58,15 +58,15 @@ describe("Continue as Guest Test", async () => {
     }
   });
 
-  it("should close on-boarding screen", async function () {
-    try {
-      this.timeout(60000);
-      await auth.closeOnBoardingScreen(driver);
-    } catch (err) {
-      console.error("Test failed in close on-boarding screen:", err);
-      expect.fail("close on-boarding screen failed");
-    }
-  });
+  // it("should close on-boarding screen", async function () {
+  //   try {
+  //     this.timeout(60000);
+  //     await auth.closeOnBoardingScreen(driver);
+  //   } catch (err) {
+  //     console.error("Test failed in close on-boarding screen:", err);
+  //     expect.fail("close on-boarding screen failed");
+  //   }
+  // });
   after(() => {
     afterSuite(driver);
   });

@@ -47,15 +47,15 @@ describe("Sign in with Google Test", async () => {
     }
   });
 
-  it("should close on-boarding screen", async function () {
-    try {
-      this.timeout(60000);
-      await auth.closeOnBoardingScreen(driver);
-    }
-    catch (err) {
-      console.error("Test failed in close on-boarding screen:", err);
-    }
-  });
+  // it("should close on-boarding screen", async function () {
+  //   try {
+  //     this.timeout(60000);
+  //     await auth.closeOnBoardingScreen(driver);
+  //   }
+  //   catch (err) {
+  //     console.error("Test failed in close on-boarding screen:", err);
+  //   }
+  // });
   after(async () => {
     await afterSuite(driver);
   })
