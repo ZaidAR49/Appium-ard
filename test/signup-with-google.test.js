@@ -103,10 +103,12 @@ describe("Signup with Google Test", async () => {
   after(async () => {
     console.log("after suite");
     try {
-
+let pass=false;
       const settings = new Settings();
       await settings.deleteAccount(driver);
       logMessage("success", "delete the created account");
+      pass=true;
+      expect(pass).to.be.true;
     } catch (err) {
       console.error("Test failed in delete the created account:", err);
       expect.fail("delete the created account failed");
