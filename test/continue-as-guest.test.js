@@ -2,31 +2,21 @@ import dotenv from "dotenv";
 import { expect } from "chai";
 import { createDriver } from "../config/capabilities.js";
 import { setLocationByName, enableLocation } from "../utils/geo-Location.js";
-import { afterSuite } from "../utils/suite-hooks.js";
+import { afterSuite,beforeSuite } from "../utils/suite-hooks.js";
 import { Authentication } from "../pages/on-boarding.js";
 import { Location } from "../pages/location.js";
 import { Notification } from "../pages/notification.js";
 
-const driver = await createDriver();
+
 //const location = "Irbid,Jordan";
 const auth = new Authentication({ optional: true });
 const notif = new Notification({ optional: true });
 const location = new Location({ optional: true });
-
+let driver =null ;
 describe("Continue as Guest Test", async () => {
-  it(" strat the app and setting location", async function () {
-    let testPassed = false;
-    try {
-      this.timeout(60000);
-      await setLocationByName("Irbid,Jordan");
-      await enableLocation();
-      await driver.pause(10000);
-      testPassed = true;
-      expect(testPassed).to.be.true;
-    } catch (err) {
-      console.error("Test failed in strat the app and setting location:", err);
-      expect.fail("strat the app and setting location failed");
-    }
+  before(async () => {
+    await beforeSuite();
+    driver = await createDriver();
   });
 
   it("should continue as guest", async function () {
