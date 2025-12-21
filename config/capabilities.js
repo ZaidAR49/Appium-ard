@@ -13,8 +13,12 @@ export const capabilities = {
 	"appium:fullReset": true,
 	'appium:newCommandTimeout': 500,
 	'appium:logLevel': "info",
-	'appium:reporter': "junit", 
-	'appium:reportDir': "./reports", 
+	// Report generation is disabled by default
+	// Enable by setting environment variable: SET GENERATE_REPORT=true
+	...(process.env.GENERATE_REPORT === 'true' && {
+		'appium:reporter': "junit",
+		'appium:reportDir': "./reports"
+	}), 
 
 
 
