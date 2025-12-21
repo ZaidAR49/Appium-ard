@@ -17,6 +17,8 @@ describe("Continue as Guest Test", async () => {
   before(async () => {
     await beforeSuite();
     driver = await createDriver();
+    enableLocation();
+
   });
 
   it("should continue as guest", async function () {

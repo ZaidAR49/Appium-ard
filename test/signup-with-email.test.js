@@ -1,8 +1,8 @@
 import dotenv from "dotenv";
 import { expect } from "chai";
 import { createDriver } from "../config/capabilities.js";
-import { setLocationByName, enableLocation } from "../utils/geo-Location.js";
-import { afterSuite } from "../utils/suite-hooks.js";
+import { enableLocation } from "../utils/geo-Location.js";
+import { afterSuite,beforeSuite } from "../utils/suite-hooks.js";
 import { Authentication } from "../pages/on-boarding.js";
 import { Welcome } from "../pages/welcome.js";
 import { Location } from "../pages/location.js";
@@ -12,7 +12,7 @@ import { logMessage } from "../utils/general.js";
 
 dotenv.config({ path: "../.env" });
 
-const driver = await createDriver();
+let driver =null ;
 
 const auth = new Authentication({ optional: true });
 const welcome = new Welcome();
@@ -20,20 +20,11 @@ const location = new Location({ optional: true });
 const notif = new Notification({ optional: true });
 
 describe("Signup with Google Test", async () => {
-  it(" strat the app and setting location", async function () {
-    try {
-      let testPassed = false;
-      this.timeout(20000); // Increase timeout to 20 seconds
-      await setLocationByName("Irbid,Jordan");
-      await enableLocation();
-      await driver.pause(10000);
-      testPassed = true;
-      expect(testPassed).to.be.true;
-      //expect(await getDeviceLocation()).toBeDefined();
-    } catch (err) {
-      console.error("Test failed in strat the app and setting location:", err);
-      expect.fail("strat the app and setting location failed");
-    }
+ before(async () => {
+    await beforeSuite();
+    driver = await createDriver();
+    enableLocation();
+
   });
 
   it("should Sign up with email and fill user information", async function () {

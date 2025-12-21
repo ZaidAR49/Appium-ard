@@ -1,31 +1,23 @@
 import { expect } from "chai";
-import { setLocationByName, enableLocation } from "../utils/geo-Location.js";
+import { enableLocation } from "../utils/geo-Location.js";
 import { Authentication } from "../pages/on-boarding.js";
 import { Notification } from "../pages/notification.js";
 import { createDriver } from "../config/capabilities.js";
-import { afterSuite } from "../utils/suite-hooks.js";
+import { afterSuite,beforeSuite } from "../utils/suite-hooks.js";
 
-const driver = await createDriver();
+let driver =null ;
 const auth = new Authentication({ optional: true });
 const notif = new Notification({ optional: true });
 
 describe("Sign in with email test", async () => {
 
-    it(" strat the app and setting location", async function () {
-        try {
-            let testPassed = false;
-            this.timeout(20000); // Increase timeout to 20 seconds
-            await setLocationByName("Irbid,Jordan");
-            await enableLocation();
-            await driver.pause(10000);
-            testPassed = true;
-            expect(testPassed).to.be.true;
-            //expect(await getDeviceLocation()).toBeDefined();
-        } catch (err) {
-            console.error("Test failed in strat the app and setting location:", err);
-            expect.fail("strat the app and setting location failed");
-        }
-    });
+    before(async () => {
+    await beforeSuite();
+    driver = await createDriver();
+    enableLocation();
+
+  });
+
 
     it("should login with email", async function () {
         try {

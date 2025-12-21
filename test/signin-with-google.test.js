@@ -1,29 +1,22 @@
 import dotenv from "dotenv";
 import { createDriver } from "../config/capabilities.js";
-import { setLocationByName, enableLocation } from "../utils/geo-Location.js";
-import { afterSuite } from "../utils/suite-hooks.js";
+import {enableLocation } from "../utils/geo-Location.js";
+import { afterSuite,beforeSuite } from "../utils/suite-hooks.js";
 import { Authentication } from "../pages/on-boarding.js";
 import { Notification } from "../pages/notification.js";
 dotenv.config({ path: "../.env" });
 
-const driver = await createDriver();
+let driver =null ;
 const loginEmail = process.env.LOGINEMAIL;
 const auth = new Authentication({ optional: true });
 const notif = new Notification({ optional: true });
 describe("Sign in with Google Test", async () => {
   let testPassed = false;
-  it(" strat the app and setting location", async function () {
-    try {
-      this.timeout(60000);
-      await setLocationByName("Irbid,Jordan");
-      await enableLocation();
-      await driver.pause(10000);
-      testPassed = true;
-      expect(testPassed).to.be.true;
+  before(async () => {
+    await beforeSuite();
+    driver = await createDriver();
+    enableLocation();
 
-    } catch (err) {
-      console.error("Test failed in strat the app and setting location:", err);
-    }
   });
 
   it("should Sign in with Google account", async function () {
