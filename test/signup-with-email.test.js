@@ -18,7 +18,7 @@ const auth = new Authentication({ optional: true });
 const welcome = new Welcome();
 const location = new Location({ optional: true });
 const notif = new Notification({ optional: true });
-
+let accountCreated = false;
 describe("Signup with Google Test", async () => {
  before(async () => {
     await beforeSuite();
@@ -65,6 +65,7 @@ describe("Signup with Google Test", async () => {
     try {
       this.timeout(60000);
       await notif.allowNotifications(driver);
+      accountCreated = true;
     } catch (err) {
       console.error("Test failed in allow notifications:", err);
       expect.fail("allow notifications failed");
@@ -85,8 +86,9 @@ describe("Signup with Google Test", async () => {
     console.log("after suite");
     try {
       const settings = new Settings();
-      await settings.deleteAccount(driver);
-      logMessage("success", "delete the created account");
+        if (accountCreated){  await settings.deleteAccount(driver);
+        logMessage("success", "delete the created account");}
+    
     } catch (err) {
       console.error("Test failed in delete the created account:", err);
       expect.fail("delete the created account failed");
