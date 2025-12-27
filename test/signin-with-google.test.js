@@ -4,6 +4,7 @@ import {enableLocation } from "../utils/geo-Location.js";
 import { afterSuite,beforeSuite } from "../utils/suite-hooks.js";
 import { Authentication } from "../pages/on-boarding.js";
 import { Notification } from "../pages/notification.js";
+import { takeScreenshot } from "../utils/general.js";
 dotenv.config({ path: "../.env" });
 
 let driver =null ;
@@ -26,6 +27,7 @@ describe("Sign in with Google Test", async () => {
 
     }
     catch (err) {
+      takeScreenshot(driver, "signin-with-google-error.png");
       console.error("Test failed in Sign in with Google account and fill user information:", err);
     }
   });
@@ -36,6 +38,7 @@ describe("Sign in with Google Test", async () => {
       await notif.allowNotifications(driver);
     }
     catch (err) {
+      takeScreenshot(driver, "allow-notifications-error.png");
       console.error("Test failed in allow notifications:", err);
     }
   });
@@ -46,6 +49,7 @@ describe("Sign in with Google Test", async () => {
   //     await auth.closeOnBoardingScreen(driver);
   //   }
   //   catch (err) {
+  //     takeScreenshot(driver, "close-on-boarding-screen-error.png");
   //     console.error("Test failed in close on-boarding screen:", err);
   //   }
   // });

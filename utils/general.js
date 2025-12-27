@@ -11,3 +11,7 @@ export function logMessage(type, message) {
 
   console.log(color + ("My log: " + message) + colors.reset);
 }
+
+export function takeScreenshot(driver, filename) {
+  return driver.saveScreenshot(`./screenshots/${filename}`);
+}

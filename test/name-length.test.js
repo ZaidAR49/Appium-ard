@@ -1,3 +1,4 @@
+import { takeScreenshot } from "../utils/general.js";
 import { expect } from "chai";
 import { createDriver } from "../config/capabilities.js";
 import { afterSuite,beforeSuite } from "../utils/suite-hooks.js";
@@ -32,6 +33,7 @@ describe("Name length test", async () => {
 
 
         } catch (err) {
+            takeScreenshot(driver, "sign-up-with-email-error.png");
             console.error("Test failed in sign up with email:", err);
             expect.fail("sign up with email failed");
         }
@@ -44,7 +46,7 @@ describe("Name length test", async () => {
 
 
         } catch (err) {
-
+            takeScreenshot(driver, "sign-up-with-email-error.png");
             expect.fail(" Something went wrong and in 'sould not allow to sign up with name length less than 3' test");
         }
     })
@@ -61,7 +63,7 @@ describe("Name length test", async () => {
 
 
         } catch (err) {
-
+            takeScreenshot(driver, "sign-up-with-long-name-error.png");
             expect.fail(" Something went wrong and in 'sould not allow to sign up with name length more than 20' test");
         }
     })

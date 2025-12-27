@@ -8,7 +8,7 @@ import { Welcome } from "../pages/welcome.js";
 import { Location } from "../pages/location.js";
 import { Notification } from "../pages/notification.js";
 import { Settings } from "../pages/setting.js";
-import { logMessage } from "../utils/general.js";
+import { logMessage ,takeScreenshot} from "../utils/general.js";
 dotenv.config({ path: "../.env" });
 
 let driver = null;
@@ -31,6 +31,7 @@ describe("Signup with Google Test", async () => {
       this.timeout(60000);
       await auth.signUpWithGoogle(driver, signupEmail, "DENY", "Zaid Radaideh");
     } catch (err) {
+      takeScreenshot(driver, "signup-with-google-error.png");
       console.error(
         "Test failed in Sign up with Google account and fill user information:",
         err
@@ -46,6 +47,7 @@ describe("Signup with Google Test", async () => {
       this.timeout(60000);
       await welcome.skipWelcomeScreen(driver);
     } catch (err) {
+      takeScreenshot(driver, "skip-welcome-screen-error.png");
       console.error("Test failed in skip welcome screen:", err);
       expect;
     }
@@ -55,6 +57,7 @@ describe("Signup with Google Test", async () => {
       this.timeout(60000);
       await location.selectLocationAutomatically(driver, "Irbid");
     } catch (err) {
+      takeScreenshot(driver, "select-location-automatically-error.png");
       console.error("Test failed in selected location automatically:", err);
       expect.fail("selected location automatically failed");
     }
@@ -66,6 +69,7 @@ describe("Signup with Google Test", async () => {
       await notif.allowNotifications(driver);
       accountCreated = true;
     } catch (err) {
+      takeScreenshot(driver, "allow-notifications-error.png");
       console.error("Test failed in allow notifications:", err);
       expect.fail("allow notifications failed");
     }
@@ -77,6 +81,7 @@ describe("Signup with Google Test", async () => {
   //     auth.closeOnBoardingScreen(driver);
   //   }
   //   catch (err) {
+  //     takeScreenshot(driver, "colse-on-boarding-screen-error.png");  
   //     console.error("Test failed in colse the on-boarding screen:", err);
   //     expect.fail("colse the on-boarding screen failed");
   //   }

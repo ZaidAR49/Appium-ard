@@ -4,6 +4,7 @@ import { Authentication } from "../pages/on-boarding.js";
 import { Notification } from "../pages/notification.js";
 import { createDriver } from "../config/capabilities.js";
 import { afterSuite,beforeSuite } from "../utils/suite-hooks.js";
+import { takeScreenshot } from "../utils/general.js";
 
 let driver =null ;
 const auth = new Authentication({ optional: true });
@@ -29,6 +30,7 @@ describe("Sign in with email test", async () => {
 
             await auth.LoginWithEmail(driver, process.env.LOGINEMAIL, "Zaid Radaideh");
         } catch (err) {
+            takeScreenshot(driver, "login-with-email-error.png");
             console.error(
                 "Test failed in login with email:",
                 err
@@ -45,6 +47,7 @@ describe("Sign in with email test", async () => {
             await notif.allowNotifications(driver);
         }
         catch (err) {
+            takeScreenshot(driver, "allow-notifications-error.png");
             console.error("Test failed in allow notifications:", err);
         }
     });
@@ -52,6 +55,4 @@ describe("Sign in with email test", async () => {
     after(async () => {
         await afterSuite(driver);
     })
-
-
-})
+});

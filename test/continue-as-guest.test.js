@@ -1,7 +1,7 @@
-import dotenv from "dotenv";
+import { takeScreenshot } from "../utils/general.js";
 import { expect } from "chai";
 import { createDriver } from "../config/capabilities.js";
-import { setLocationByName, enableLocation } from "../utils/geo-Location.js";
+import {enableLocation } from "../utils/geo-Location.js";
 import { afterSuite,beforeSuite } from "../utils/suite-hooks.js";
 import { Authentication } from "../pages/on-boarding.js";
 import { Location } from "../pages/location.js";
@@ -26,6 +26,7 @@ describe("Continue as Guest Test", async () => {
       this.timeout(60000);
       await auth.continueAsGuest(driver);
     } catch (err) {
+takeScreenshot(driver, "continue-as-guest-error.png");
       console.error("Test failed in continue as guest:", err);
       expect.fail("continue as guest failed");
     }
@@ -35,6 +36,7 @@ describe("Continue as Guest Test", async () => {
       this.timeout(60000);
       await location.selectLocationAutomatically(driver, "Irbid");
     } catch (err) {
+      takeScreenshot(driver, "select-location-automatically-error.png");
       console.error("Test failed in select location automatically:", err);
       expect.fail("select location automatically failed");
     }
@@ -45,6 +47,7 @@ describe("Continue as Guest Test", async () => {
       this.timeout(60000);
       await notif.allowNotifications(driver);
     } catch (err) {
+      takeScreenshot(driver, "allow-notifications-error.png");
       console.error("Test failed in allow notifications:", err);
       expect.fail("allow notifications failed");
     }
@@ -55,6 +58,7 @@ describe("Continue as Guest Test", async () => {
   //     this.timeout(60000);
   //     await auth.closeOnBoardingScreen(driver);
   //   } catch (err) {
+  //     takeScreenshot(driver, "close-on-boarding-screen-error.png");
   //     console.error("Test failed in close on-boarding screen:", err);
   //     expect.fail("close on-boarding screen failed");
   //   }
